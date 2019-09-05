@@ -1,12 +1,13 @@
 /*
  * DS1307.c
  *
+ *	The MIT License.
  *  Created on: 4.09.2019
  *      Author: Mateusz Salamon
  *		Contact: mateusz@msalamon.pl
  *
- *      Website:
- *      GitHub:
+  *      Website: https://msalamon.pl/dalsze-zmagania-z-rtc-ds1307-i-pcf8563-na-stm32/
+  *      GitHub: https://github.com/lamik/DS1307_RTC_STM32_HAL
  */
 #include "main.h"
 #include "DS1307.h"
@@ -137,6 +138,22 @@ void DS1307_GetDateTime(RTCDateTime *DateTime)
 	void DS1307_CalculateDateTime(DateTime);
 }
 #endif
+
+void DS1307_ReadRAM(uint8_t Address, uint8_t *Value, uint8_t Length)
+{
+	if((Address < DS1307_REG_RAM_START) || (Address > DS1307_REG_RAM_END)) return;
+	if((Address + Length + DS1307_REG_RAM_START) > DS1307_REG_RAM_END) return;
+
+	HAL_I2C_Mem_Read(hi2c_ds1307, DS1307_ADDRESS, Address, 1, Value, Length, DS1307_I2C_TIMEOUT);
+}
+
+void DS1307_WriteRAM(uint8_t Address, uint8_t *Value, uint8_t Length)
+{
+	if((Address < DS1307_REG_RAM_START) || (Address > DS1307_REG_RAM_END)) return;
+	if((Address + Length + DS1307_REG_RAM_START) > DS1307_REG_RAM_END) return;
+
+	HAL_I2C_Mem_Write(hi2c_ds1307, DS1307_ADDRESS, Address, 1, Value, Length, DS1307_I2C_TIMEOUT);
+}
 
 void DS1307_Init(I2C_HandleTypeDef *hi2c)
 {

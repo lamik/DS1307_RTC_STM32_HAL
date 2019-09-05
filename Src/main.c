@@ -15,6 +15,13 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
+  *
+  *  Created on: 4.09.2019
+  *      Author: Mateusz Salamon
+  *		Contact: mateusz@msalamon.pl
+  *
+  *      Website: https://msalamon.pl/dalsze-zmagania-z-rtc-ds1307-i-pcf8563-na-stm32/
+  *      GitHub: https://github.com/lamik/DS1307_RTC_STM32_HAL
   */
 /* USER CODE END Header */
 
@@ -170,25 +177,20 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == DS1307_INT_Pin)
 	{
-		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_SET);
 		DS1307_ReceiveDateTimeDMA();
-		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_RESET);
 	}
 }
 
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
-{HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_SET);
+{
 	DS1307_CalculateDateTime(&r);
-	HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_RESET);
 }
 #else
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == DS1307_INT_Pin)
 	{
-		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_SET);
 		DS1307_GetDateTime(&r);
-		HAL_GPIO_WritePin(TEST_GPIO_Port, TEST_Pin, GPIO_PIN_RESET);
 	}
 }
 #endif

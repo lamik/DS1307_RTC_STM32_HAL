@@ -1,12 +1,13 @@
 /*
  * DS1307.h
  *
+ * 	The MIT License.
  *  Created on: 4.09.2019
  *      Author: Mateusz Salamon
  *		Contact: mateusz@msalamon.pl
  *
- *      Website:
- *      GitHub:
+  *      Website: https://msalamon.pl/dalsze-zmagania-z-rtc-ds1307-i-pcf8563-na-stm32/
+  *      GitHub: https://github.com/lamik/DS1307_RTC_STM32_HAL
  */
 
 //
@@ -60,6 +61,9 @@ void DS1307_SQWEnable(uint8_t Enable);
 void DS1307_SQWRateSelect(uint8_t Rate);
 void DS1307_OutputControl(uint8_t Enable);
 void DS1307_ClockHalt(uint8_t Enable);
+
+void DS1307_ReadRAM(uint8_t Address, uint8_t *Value, uint8_t Length);
+void DS1307_WriteRAM(uint8_t Address, uint8_t *Value, uint8_t Length);
 
 void DS1307_SetDateTime(RTCDateTime *DateTime);
 #ifdef DS1307_USE_DMA
